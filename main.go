@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 )
@@ -11,11 +12,22 @@ func main() {
 
 	var log_folder string = "C:\\inetpub\\logs\\LogFiles\\W3SVC1\\"
 
+	fileName := "update_ststistics.bat"
+
+	f, err := os.Create(fileName)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer f.Close()
+
 	fmt.Println("List files by Walk")
-	listDirByWalk(log_folder)
+	listDirByWalk(log_folder, f)
+
 }
 
-func listDirByWalk(path string) {
+func listDirByWalk(path string, f *os.File) {
 	filepath.Walk(path, func(wPath string, info os.FileInfo, err error) error {
 
 		var perl_name string = "perl"
@@ -41,6 +53,8 @@ func listDirByWalk(path string) {
 			// fmt.Println(wPath)
 			var qq string = perl_name + " " + file_script_path + " " + config_name + " " + parametr_name + " " + "-LogFile=\"" + wPath + "\""
 			fmt.Println(qq)
+			f.WriteString(qq + "\n")
+
 			// fmt.Printf("[%s]\n", info.Name())
 			// fmt.Printf("[%d]\n", info.Size())
 			// fmt.Printf("[%d]\n", info.ModTime().Day())
