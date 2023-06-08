@@ -8,6 +8,7 @@ import (
 	"path"
 	"path/filepath"
 	"regexp"
+	"strings"
 )
 
 func main() {
@@ -51,6 +52,7 @@ func deleteOldStatistics(path string, config_name string, f *os.File) {
 	}
 
 	for _, file := range files {
+
 		fmt.Println(file)
 		var str_bat_cmd string = "del \"" + file + "\""
 		f.WriteString(str_bat_cmd + "\n")
@@ -77,7 +79,8 @@ func listDirByIOReadDir(root string, ext string) ([]string, error) {
 		}
 
 		if reg.MatchString(file.Name()) {
-			full_path := path.Join(root, file.Name())
+			full_path1 := path.Join(root, file.Name())
+			full_path := strings.ReplaceAll(full_path1, "/", "")
 			files = append(files, full_path)
 		}
 	}
