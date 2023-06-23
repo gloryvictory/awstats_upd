@@ -16,7 +16,7 @@ func main() {
 	// perl "C:/Apps/awstats/wwwroot/cgi-bin/awstats.pl" -config="configName" -update -LogFile="C:\inetpub\logs\LogFiles\W3SVC1\u_ex220101.log"
 
 	vp := viper.New()
-	vp.SetConfigName("config")
+	vp.SetConfigName("awstats_upd")
 	vp.SetConfigType("json")
 	vp.AddConfigPath(".")
 	vp.AddConfigPath(".cmd")

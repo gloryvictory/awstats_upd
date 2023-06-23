@@ -22,3 +22,7 @@ go.work
 
 /cmd/update_ststistics.bat
 update_ststistics.bat
+/cmd/*.exe
+*.exe
+/build
+/build/*
