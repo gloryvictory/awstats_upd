@@ -9,12 +9,28 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	"github.com/spf13/viper"
 )
 
 func main() {
 	// perl "C:/Apps/awstats/wwwroot/cgi-bin/awstats.pl" -config="configName" -update -LogFile="C:\inetpub\logs\LogFiles\W3SVC1\u_ex220101.log"
 
-	var log_folder string = "C:\\inetpub\\logs\\LogFiles\\W3SVC1\\"
+	vp := viper.New()
+	vp.SetConfigName("config")
+	vp.SetConfigType("json")
+	vp.AddConfigPath(".")
+	vp.AddConfigPath(".cmd")
+
+	err := vp.ReadConfig()
+	if err != nil {
+		fmt.Println("Unable to read config file!!", " Err:", err)
+	}
+	log_folder := vp.GetString("log_folder")
+
+	fmt.Println(log_folder)
+
+	// var log_folder string = "C:\\inetpub\\logs\\LogFiles\\W3SVC1\\"
 	var path_cgi_bin string = "C:\\Apps\\awstats\\wwwroot\\cgi-bin\\"
 	var config_name string = "arcgis"
 
@@ -23,7 +39,7 @@ func main() {
 	f, err := os.Create(fileName)
 
 	if err != nil {
-		fmt.Println("Unable to create file:", err)
+		fmt.Println("Unable to create file: ", fileName, " Err:", err)
 		log.Fatal(err)
 		os.Exit(1)
 	}
