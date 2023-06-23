@@ -1,4 +1,7 @@
 {
-    "log_folder":"C:\\inetpub\\logs\\LogFiles\\W3SVC1\\"
+    "log_folder":"C:\\inetpub\\logs\\LogFiles\\W3SVC1\\",
+    "path_cgi_bin":"C:\\Apps\\awstats\\wwwroot\\cgi-bin\\",
+    "config_name":"arcgis",
+    "fileName_out":"update_ststistics.bat"
 
 }

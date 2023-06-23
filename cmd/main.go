@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path"
@@ -22,24 +21,28 @@ func main() {
 	vp.AddConfigPath(".")
 	vp.AddConfigPath(".cmd")
 
-	err := vp.ReadConfig()
+	err := vp.ReadInConfig()
 	if err != nil {
-		fmt.Println("Unable to read config file!!", " Err:", err)
-	}
-	log_folder := vp.GetString("log_folder")
+		panic(fmt.Errorf("fatal error config file: %w", err))
 
-	fmt.Println(log_folder)
+		// fmt.Println("Unable to read config file!!", " Err:", err)
+	}
+	log_folder := vp.GetString("log_folder")     //"C:\\inetpub\\logs\\LogFiles\\W3SVC1\\"
+	path_cgi_bin := vp.GetString("path_cgi_bin") // "C:\\Apps\\awstats\\wwwroot\\cgi-bin\\"
+	config_name := vp.GetString("config_name")   // "arcgis"
+	fileName_out := vp.GetString("fileName_out") //"update_ststistics.bat"
+
+	fmt.Println(log_folder, path_cgi_bin, config_name, fileName_out)
 
 	// var log_folder string = "C:\\inetpub\\logs\\LogFiles\\W3SVC1\\"
-	var path_cgi_bin string = "C:\\Apps\\awstats\\wwwroot\\cgi-bin\\"
-	var config_name string = "arcgis"
+	// var path_cgi_bin string = "C:\\Apps\\awstats\\wwwroot\\cgi-bin\\"
+	// var config_name string = "arcgis"
+	// fileName_out := "update_ststistics.bat"
 
-	fileName := "update_ststistics.bat"
-
-	f, err := os.Create(fileName)
+	f, err := os.Create(fileName_out)
 
 	if err != nil {
-		fmt.Println("Unable to create file: ", fileName, " Err:", err)
+		fmt.Println("Unable to create file: ", fileName_out, " Err:", err)
 		log.Fatal(err)
 		os.Exit(1)
 	}
@@ -81,7 +84,7 @@ func deleteOldStatistics(path string, config_name string, f *os.File) {
 func listDirByIOReadDir(root string, ext string) ([]string, error) {
 	var files []string
 	// var err2 error
-	fileInfo, err := ioutil.ReadDir(root)
+	fileInfo, err := os.ReadDir(root)
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 		return files, err
