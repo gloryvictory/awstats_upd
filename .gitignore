@@ -19,3 +19,6 @@
 
 # Go workspace file
 go.work
+
+/cmd/update_ststistics.bat
+update_ststistics.bat
